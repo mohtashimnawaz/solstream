@@ -5,6 +5,9 @@ package_manager = "yarn"
 resolution = true
 skip-lint = false
 
+[workspace]
+types = "target/types"
+
 [programs.localnet]
 solstream = "C44y98NwZv9wbCZXYfY114tbYCgyZB2L5mEZ98ySAKdx"
 
