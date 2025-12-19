@@ -53,16 +53,26 @@ pub mod solstream {
 
     /// Withdraw vested tokens
     pub fn withdraw(ctx: Context<Withdraw>) -> Result<()> {
-        let vesting_account = &mut ctx.accounts.vesting_account;
         let current_time = Clock::get()?.unix_timestamp;
+
+        // Get values we need before mutable borrow
+        let total_amount = ctx.accounts.vesting_account.total_amount;
+        let start_time = ctx.accounts.vesting_account.start_time;
+        let end_time = ctx.accounts.vesting_account.end_time;
+        let cliff_duration = ctx.accounts.vesting_account.cliff_duration;
+        let amount_withdrawn = ctx.accounts.vesting_account.amount_withdrawn;
+        let sender = ctx.accounts.vesting_account.sender;
+        let beneficiary = ctx.accounts.vesting_account.beneficiary;
+        let mint = ctx.accounts.vesting_account.mint;
+        let bump = ctx.accounts.vesting_account.bump;
 
         // Calculate claimable amount
         let claimable = calculate_claimable_amount(
-            vesting_account.total_amount,
-            vesting_account.start_time,
-            vesting_account.end_time,
-            vesting_account.cliff_duration,
-            vesting_account.amount_withdrawn,
+            total_amount,
+            start_time,
+            end_time,
+            cliff_duration,
+            amount_withdrawn,
             current_time,
         )?;
 
@@ -77,10 +87,10 @@ pub mod solstream {
         // Transfer tokens from vault to beneficiary
         let seeds = &[
             b"vesting",
-            vesting_account.sender.as_ref(),
-            vesting_account.beneficiary.as_ref(),
-            vesting_account.mint.as_ref(),
-            &[vesting_account.bump],
+            sender.as_ref(),
+            beneficiary.as_ref(),
+            mint.as_ref(),
+            &[bump],
         ];
         let signer = &[&seeds[..]];
 
@@ -94,6 +104,7 @@ pub mod solstream {
         token::transfer(cpi_ctx, claimable)?;
 
         // Update withdrawn amount
+        let vesting_account = &mut ctx.accounts.vesting_account;
         vesting_account.amount_withdrawn = vesting_account
             .amount_withdrawn
             .checked_add(claimable)
