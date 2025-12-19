@@ -90,97 +90,122 @@ export const CreateStream = () => {
 
   if (!publicKey) {
     return (
-      <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-        <h2 className="text-2xl font-bold text-white mb-4">Create Vesting Stream</h2>
-        <p className="text-purple-200">Please connect your wallet to create a stream.</p>
+      <div className="glass rounded-3xl p-8 border border-white/20 shadow-2xl">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center">
+            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <h2 className="text-2xl font-bold text-white">Create Vesting Stream</h2>
+        </div>
+        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+          <p className="text-yellow-200 text-sm flex items-center gap-2">
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            Please connect your wallet to create a vesting stream
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-      <h2 className="text-2xl font-bold text-white mb-6">Create Vesting Stream</h2>
-      <form onSubmit={handleCreateStream} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+    <div className="glass rounded-3xl p-8 border border-white/20 shadow-2xl hover:shadow-purple-500/20 transition-all duration-300">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 bg-gradient-to-br from-purple-500 via-pink-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg animate-gradient">
+          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <h2 className="text-2xl font-bold text-white">Create Vesting Stream</h2>
+      </div>
+      <form onSubmit={handleCreateStream} className="space-y-5">\n        <div className="group">
+          <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
             Beneficiary Address
           </label>
           <input
             type="text"
             value={beneficiary}
             onChange={(e) => setBeneficiary(e.target.value)}
-            className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter beneficiary public key"
             required
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+        <div className="group">
+          <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
             Token Mint Address
           </label>
           <input
             type="text"
             value={mint}
             onChange={(e) => setMint(e.target.value)}
-            className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
             placeholder="Enter token mint address"
             required
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+        <div className="group">
+          <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
             Total Amount (tokens)
           </label>
-          <input
-            type="number"
-            step="0.000001"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
-            placeholder="1000"
-            required
-          />
+          <div className="relative">
+            <input
+              type="number"
+              step="0.000001"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+              placeholder="1000"
+              required
+            />
+            <div className="absolute right-3 top-1/2 -translate-y-1/2 text-purple-400 font-semibold">
+              🪙
+            </div>
+          </div>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-2">
+          <div className="group">
+            <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
               Start Time
             </label>
             <input
               type="datetime-local"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
               required
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-purple-200 mb-2">
+          <div className="group">
+            <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
               End Time
             </label>
             <input
               type="datetime-local"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
               required
             />
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-purple-200 mb-2">
+        <div className="group">
+          <label className="block text-sm font-semibold text-purple-200 mb-2 transition-colors group-focus-within:text-purple-300">
             Cliff Duration (minutes)
           </label>
           <input
             type="number"
             value={cliffMinutes}
             onChange={(e) => setCliffMinutes(e.target.value)}
-            className="w-full px-4 py-3 bg-black/30 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-3 bg-black/40 border border-white/20 rounded-xl text-white placeholder-purple-300/50 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
             placeholder="10"
             required
           />
@@ -189,9 +214,19 @@ export const CreateStream = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="relative w-full bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 hover:from-purple-700 hover:via-pink-700 hover:to-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 hover:scale-[1.02] shine overflow-hidden"
         >
-          {loading ? 'Creating Stream...' : 'Create Stream'}
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              Creating Stream...
+            </span>
+          ) : (
+            '✨ Create Stream'
+          )}
         </button>
       </form>
     </div>
