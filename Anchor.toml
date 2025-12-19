@@ -8,14 +8,14 @@ skip-lint = false
 [workspace]
 types = "target/types"
 
-[programs.localnet]
+[programs.devnet]
 solstream = "C44y98NwZv9wbCZXYfY114tbYCgyZB2L5mEZ98ySAKdx"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "~/.config/solana/id.json"
 
 [scripts]
