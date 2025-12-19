@@ -82,23 +82,25 @@ export const StreamList = () => {
   }
 
   return (
-    <div className="glass rounded-3xl p-8 border border-white/20 shadow-2xl">
+    <div className="glass-dark rounded-3xl p-8 border border-white/10 shadow-2xl hover:border-violet-500/30 transition-all duration-500">
       <div className="flex justify-between items-center mb-8">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl flex items-center justify-center shadow-lg animate-gradient">
+          <div className="w-12 h-12 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-lg shadow-violet-500/50 animate-gradient">
             <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
             </svg>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">Your Vesting Streams</h2>
-            <p className="text-sm text-purple-300">{streams.length} active stream{streams.length !== 1 ? 's' : ''}</p>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-violet-200 to-fuchsia-200 bg-clip-text text-transparent">Your Vesting Streams</h2>
+            <p className="text-sm text-slate-400 font-medium">
+              <span className="text-violet-400 font-bold">{streams.length}</span> active stream{streams.length !== 1 ? 's' : ''}
+            </p>
           </div>
         </div>
         <button
           onClick={loadStreams}
           disabled={loading}
-          className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-xl transition-all duration-300 disabled:opacity-50 shadow-lg hover:shadow-purple-500/50 hover:scale-105 font-semibold"
+          className="px-5 py-2.5 bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white rounded-xl transition-all duration-300 disabled:opacity-50 shadow-lg shadow-violet-500/50 hover:shadow-violet-500/80 hover:scale-105 font-semibold"
         >
           {loading ? (
             <span className="flex items-center gap-2">
@@ -110,7 +112,10 @@ export const StreamList = () => {
             </span>
           ) : (
             <span className="flex items-center gap-2">
-              🔄 Refresh
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              Refresh
             </span>
           )}
         </button>
@@ -118,13 +123,13 @@ export const StreamList = () => {
 
       {streams.length === 0 ? (
         <div className="text-center py-16">
-          <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg className="w-10 h-10 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="w-20 h-20 bg-gradient-to-br from-violet-500/20 to-fuchsia-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-violet-500/30">
+            <svg className="w-10 h-10 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
             </svg>
           </div>
-          <p className="text-purple-200 text-lg font-medium">No vesting streams found</p>
-          <p className="text-purple-300/70 text-sm mt-2">Create your first stream to get started!</p>
+          <p className="text-violet-200 text-lg font-semibold mb-1">No vesting streams found</p>
+          <p className="text-slate-400 text-sm">Create your first stream to get started!</p>
         </div>
       ) : (
         <div className="space-y-6">
@@ -136,43 +141,43 @@ export const StreamList = () => {
             return (
               <div
                 key={stream.address}
-                className="glass-dark rounded-2xl p-6 hover:bg-black/50 transition-all duration-300 border border-white/10 hover:border-purple-500/30 hover:shadow-lg hover:shadow-purple-500/20 group"
+                className="glass-dark rounded-2xl p-6 hover:bg-black/50 transition-all duration-300 border border-white/10 hover:border-violet-500/30 hover:shadow-xl hover:shadow-violet-500/20 group"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-lg flex items-center justify-center">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-xs text-purple-300 font-medium">Sender</p>
-                        <p className="text-white font-mono text-sm">{stream.sender.slice(0, 6)}...{stream.sender.slice(-6)}</p>
+                        <p className="text-xs text-violet-300 font-semibold">Sender</p>
+                        <p className="text-slate-100 font-mono text-sm">{stream.sender.slice(0, 6)}...{stream.sender.slice(-6)}</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-gradient-to-br from-cyan-500 to-emerald-500 rounded-lg flex items-center justify-center">
                         <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                         </svg>
                       </div>
                       <div>
-                        <p className="text-xs text-purple-300 font-medium">Beneficiary</p>
-                        <p className="text-white font-mono text-sm">{stream.beneficiary.slice(0, 6)}...{stream.beneficiary.slice(-6)}</p>
+                        <p className="text-xs text-cyan-300 font-semibold">Beneficiary</p>
+                        <p className="text-slate-100 font-mono text-sm">{stream.beneficiary.slice(0, 6)}...{stream.beneficiary.slice(-6)}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-4">
-                    <div className="glass rounded-xl p-3">
-                      <p className="text-xs text-purple-300 font-medium mb-1">Total Amount</p>
-                      <p className="text-white font-bold text-lg">{stream.totalAmount.toLocaleString()} 🪙</p>
+                    <div className="glass rounded-xl p-3 border border-white/10">
+                      <p className="text-xs text-violet-300 font-semibold mb-1">Total Amount</p>
+                      <p className="text-slate-100 font-bold text-lg">💰 {stream.totalAmount.toLocaleString()}</p>
                     </div>
-                    <div className="glass rounded-xl p-3">
-                      <p className="text-xs text-purple-300 font-medium mb-1">Withdrawn</p>
-                      <p className="text-white font-bold text-lg">{stream.amountWithdrawn.toLocaleString()} 🪙</p>
+                    <div className="glass rounded-xl p-3 border border-white/10">
+                      <p className="text-xs text-amber-300 font-semibold mb-1">Withdrawn</p>
+                      <p className="text-slate-100 font-bold text-lg">📤 {stream.amountWithdrawn.toLocaleString()}</p>
                     </div>
                   </div>
 
@@ -201,34 +206,34 @@ export const StreamList = () => {
                 <div className="mt-6">
                   <div className="flex justify-between items-center mb-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-semibold text-purple-200">Vesting Progress</span>
-                      <div className={`px-2 py-0.5 rounded-full text-xs font-bold ${
-                        percentVested >= 100 ? 'bg-green-500/20 text-green-300' : 
-                        percentVested >= 50 ? 'bg-yellow-500/20 text-yellow-300' : 
-                        'bg-blue-500/20 text-blue-300'
+                      <span className="text-sm font-semibold text-violet-200">Vesting Progress</span>
+                      <div className={`px-2.5 py-1 rounded-full text-xs font-bold border ${
+                        percentVested >= 100 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30' : 
+                        percentVested >= 50 ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 
+                        'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
                       }`}>
                         {percentVested.toFixed(1)}%
                       </div>
                     </div>
-                    <span className="text-white font-bold text-lg">{percentVested.toFixed(2)}%</span>
+                    <span className="text-slate-100 font-bold text-lg">{percentVested.toFixed(2)}%</span>
                   </div>
                   <div className="relative w-full h-4 bg-black/50 rounded-full overflow-hidden border border-white/10">
                     <div
-                      className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 transition-all duration-1000 ease-out animate-gradient relative"
+                      className="h-full bg-gradient-to-r from-violet-500 via-fuchsia-500 to-cyan-500 transition-all duration-1000 ease-out animate-gradient relative"
                       style={{ width: `${Math.min(percentVested, 100)}%` }}
                     >
                       <div className="absolute inset-0 bg-white/20 animate-pulse"></div>
                     </div>
                   </div>
                   
-                  <div className="mt-4 flex items-center justify-between p-4 glass-dark rounded-xl border border-green-500/20">
+                  <div className="mt-4 flex items-center justify-between p-4 glass-dark rounded-xl border border-emerald-500/30 bg-emerald-500/5">
                     <div className="flex items-center gap-2">
-                      <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                      <svg className="w-5 h-5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                       </svg>
-                      <span className="text-sm font-medium text-purple-200">Claimable Now:</span>
+                      <span className="text-sm font-semibold text-emerald-300">Claimable Now:</span>
                     </div>
-                    <span className="text-green-400 font-bold text-xl">{claimable.toFixed(6)} tokens</span>
+                    <span className="text-emerald-400 font-bold text-xl">{claimable.toFixed(6)} tokens</span>
                   </div>
                 </div>
               </div>
