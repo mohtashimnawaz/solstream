@@ -15,7 +15,7 @@ interface VestingStream {
 }
 
 export const StreamList = () => {
-  const { publicKey } = useWallet();
+  const { publicKey, connected } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
   const [streams, setStreams] = useState<VestingStream[]>([]);
@@ -85,13 +85,21 @@ export const StreamList = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-lg font-medium text-white">Your Vesting Streams</h2>
-          <p className="text-sm text-zinc-500 mt-0.5">{streams.length} active stream{streams.length !== 1 ? 's' : ''}</p>
+          <h2 className="text-lg font-semibold text-white">Active Vesting Streams</h2>
+          <p className="text-sm text-zinc-500 mt-0.5">
+            {streams.length > 0 ? (
+              <>
+                <span className="text-white font-medium">{streams.length}</span> {streams.length === 1 ? 'stream' : 'streams'} found
+              </>
+            ) : (
+              'No streams yet'
+            )}
+          </p>
         </div>
         <button
           onClick={loadStreams}
           disabled={loading}
-          className="px-3 py-1.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-700 text-zinc-300 rounded-lg transition-colors disabled:opacity-50 text-sm font-medium flex items-center gap-2"
+          className="px-4 py-2 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 text-zinc-300 hover:text-white rounded-lg transition-all disabled:opacity-50 text-sm font-medium flex items-center gap-2 shadow-sm"
         >
           {loading ? (
             <>
@@ -112,16 +120,55 @@ export const StreamList = () => {
         </button>
       </div>
 
-      {streams.length === 0 ? (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-12">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-zinc-800 rounded-lg flex items-center justify-center mx-auto mb-4">
-              <svg className="w-6 h-6 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+      {loading && streams.length === 0 ? (
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 animate-pulse">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-5">
+                <div className="flex items-center gap-6">
+                  <div className="flex flex-col gap-2">
+                    <div className="h-5 w-48 bg-zinc-800 rounded"></div>
+                    <div className="h-5 w-48 bg-zinc-800 rounded"></div>
+                  </div>
+                </div>
+                <div className="flex items-center gap-8">
+                  <div className="h-12 w-24 bg-zinc-800 rounded"></div>
+                  <div className="w-px h-10 bg-zinc-800"></div>
+                  <div className="h-12 w-24 bg-zinc-800 rounded"></div>
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="h-2 w-full bg-zinc-800 rounded-full"></div>
+              </div>
+              <div className="flex justify-between items-center pt-5 border-t border-zinc-800">
+                <div className="h-4 w-48 bg-zinc-800 rounded"></div>
+                <div className="h-8 w-32 bg-zinc-800 rounded"></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : streams.length === 0 ? (
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-16">
+          <div className="text-center max-w-md mx-auto">
+            <div className="w-16 h-16 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-5">
+              <svg className="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
               </svg>
             </div>
-            <p className="text-zinc-300 font-medium">No vesting streams</p>
-            <p className="text-zinc-500 text-sm mt-1">Create your first stream to get started</p>
+            <h3 className="text-lg font-semibold text-white mb-2">No vesting streams found</h3>
+            <p className="text-sm text-zinc-500 leading-relaxed mb-6">
+              {!connected
+                ? "Connect your wallet to view your vesting streams."
+                : "You haven't created or received any vesting streams yet. Create a new stream to get started."}
+            </p>
+            {connected && (
+              <button className="text-sm text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-2 mx-auto">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                </svg>
+                Create your first stream
+              </button>
+            )}
           </div>
         </div>
       ) : (
@@ -134,55 +181,105 @@ export const StreamList = () => {
             return (
               <div
                 key={stream.address}
-                className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-5 hover:border-zinc-700 transition-colors"
+                className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 hover:bg-zinc-900 transition-all group"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex flex-col gap-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-zinc-500">From</span>
-                        <code className="text-sm text-zinc-300 font-mono">{stream.sender.slice(0, 4)}...{stream.sender.slice(-4)}</code>
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-5">
+                  <div className="flex items-center gap-6">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center gap-2 group/address">
+                        <span className="text-xs text-zinc-500 font-medium">From</span>
+                        <code className="text-sm text-zinc-400 font-mono bg-zinc-800 px-2 py-0.5 rounded">
+                          {stream.sender.slice(0, 4)}...{stream.sender.slice(-4)}
+                        </code>
+                        <button
+                          onClick={() => navigator.clipboard.writeText(stream.sender)}
+                          className="opacity-0 group-hover/address:opacity-100 transition-opacity text-zinc-500 hover:text-white"
+                          title="Copy address"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-zinc-500">To</span>
-                        <code className="text-sm text-white font-mono">{stream.beneficiary.slice(0, 4)}...{stream.beneficiary.slice(-4)}</code>
+                      <div className="flex items-center gap-2 group/address">
+                        <span className="text-xs text-zinc-500 font-medium">To</span>
+                        <code className="text-sm text-white font-mono bg-zinc-800 px-2 py-0.5 rounded">
+                          {stream.beneficiary.slice(0, 4)}...{stream.beneficiary.slice(-4)}
+                        </code>
+                        <button
+                          onClick={() => navigator.clipboard.writeText(stream.beneficiary)}
+                          className="opacity-0 group-hover/address:opacity-100 transition-opacity text-zinc-500 hover:text-white"
+                          title="Copy address"
+                        >
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                          </svg>
+                        </button>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="flex items-center gap-6">
+                  <div className="flex items-center gap-8">
                     <div className="text-right">
-                      <p className="text-xs text-zinc-500">Total Amount</p>
-                      <p className="text-sm font-medium text-white">{stream.totalAmount.toLocaleString()} tokens</p>
+                      <p className="text-xs text-zinc-500 font-medium mb-1">Total Amount</p>
+                      <p className="text-base font-semibold text-white">{stream.totalAmount.toLocaleString()}</p>
                     </div>
+                    <div className="w-px h-10 bg-zinc-800"></div>
                     <div className="text-right">
-                      <p className="text-xs text-zinc-500">Withdrawn</p>
-                      <p className="text-sm font-medium text-zinc-400">{stream.amountWithdrawn.toLocaleString()} tokens</p>
+                      <p className="text-xs text-zinc-500 font-medium mb-1">Withdrawn</p>
+                      <p className="text-base font-semibold text-zinc-400">{stream.amountWithdrawn.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-xs text-zinc-500">Vesting Progress</span>
-                    <span className="text-xs font-medium text-white">{percentVested.toFixed(1)}%</span>
+                <div className="mb-5">
+                  <div className="flex justify-between items-center mb-2.5">
+                    <span className="text-xs text-zinc-500 font-medium">Vesting Progress</span>
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                        percentVested >= 100 ? 'bg-emerald-500/10 text-emerald-400' :
+                        percentVested >= 50 ? 'bg-amber-500/10 text-amber-400' :
+                        'bg-blue-500/10 text-blue-400'
+                      }`}>
+                        {percentVested >= 100 ? 'Completed' : 'Active'}
+                      </span>
+                      <span className="text-sm font-semibold text-white">{percentVested.toFixed(1)}%</span>
+                    </div>
                   </div>
-                  <div className="w-full h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                  <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-white rounded-full transition-all duration-500"
+                      className={`h-full rounded-full transition-all duration-500 ${
+                        percentVested >= 100 ? 'bg-emerald-500' :
+                        percentVested >= 50 ? 'bg-amber-500' :
+                        'bg-white'
+                      }`}
                       style={{ width: `${Math.min(percentVested, 100)}%` }}
                     />
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-zinc-800">
-                  <div className="flex items-center gap-4 text-xs text-zinc-500">
-                    <span>Start: {stream.startTime.toLocaleDateString()}</span>
-                    <span>End: {stream.endTime.toLocaleDateString()}</span>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-5 border-t border-zinc-800">
+                  <div className="flex items-center gap-6 text-xs text-zinc-500">
+                    <div className="flex items-center gap-1.5">
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                      </svg>
+                      <span>{stream.startTime.toLocaleDateString()}</span>
+                    </div>
+                    <span className="text-zinc-700">→</span>
+                    <div className="flex items-center gap-1.5">
+                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                      </svg>
+                      <span>{stream.endTime.toLocaleDateString()}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-500">Claimable:</span>
-                    <span className="text-sm font-medium text-emerald-400">{claimable.toFixed(2)} tokens</span>
+                  <div className="flex items-center gap-2 px-3 py-2 bg-emerald-500/5 border border-emerald-500/20 rounded-lg">
+                    <svg className="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-xs text-zinc-500 font-medium">Claimable:</span>
+                    <span className="text-sm font-semibold text-emerald-400">{claimable.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

@@ -15,5 +15,10 @@ export default defineConfig({
   },
   optimizeDeps: {
     include: ['@solana/web3.js', '@coral-xyz/anchor'],
+    esbuildOptions: {
+      define: {
+        global: 'globalThis',
+      },
+    },
   },
 });

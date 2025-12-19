@@ -17,6 +17,8 @@ export const CreateStream = () => {
   const [endTime, setEndTime] = useState('');
   const [cliffMinutes, setCliffMinutes] = useState('10');
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   const handleCreateStream = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,9 +82,13 @@ export const CreateStream = () => {
       setAmount('');
       setStartTime('');
       setEndTime('');
+      setSuccess(true);
+      setError('');
+      setTimeout(() => setSuccess(false), 5000);
     } catch (error: any) {
       console.error('Error creating stream:', error);
-      alert(`Error: ${error.message}`);
+      setError(error.message || 'Failed to create stream');
+      setSuccess(false);
     } finally {
       setLoading(false);
     }
@@ -104,13 +110,37 @@ export const CreateStream = () => {
   }
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl">
+    <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl hover:border-zinc-700 transition-colors">
       <div className="p-6 border-b border-zinc-800">
-        <h2 className="text-lg font-medium text-white">Create Vesting Stream</h2>
+        <h2 className="text-lg font-semibold text-white">Create Vesting Stream</h2>
         <p className="text-sm text-zinc-500 mt-1">Set up a new token vesting schedule</p>
       </div>
       
       <form onSubmit={handleCreateStream} className="p-6 space-y-5">
+        {success && (
+          <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-4 flex items-start gap-3">
+            <svg className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            <div>
+              <h4 className="text-sm font-semibold text-emerald-400">Stream created successfully!</h4>
+              <p className="text-xs text-emerald-400/80 mt-0.5">Your vesting stream has been created on-chain.</p>
+            </div>
+          </div>
+        )}
+        
+        {error && (
+          <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-4 flex items-start gap-3">
+            <svg className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            <div>
+              <h4 className="text-sm font-semibold text-red-400">Error creating stream</h4>
+              <p className="text-xs text-red-400/80 mt-0.5">{error}</p>
+            </div>
+          </div>
+        )}
+        
         <div>
           <label className="block text-sm font-medium text-zinc-300 mb-2">
             Beneficiary Address
@@ -119,7 +149,7 @@ export const CreateStream = () => {
             type="text"
             value={beneficiary}
             onChange={(e) => setBeneficiary(e.target.value)}
-            className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
             placeholder="Enter wallet address"
             required
           />
@@ -133,7 +163,7 @@ export const CreateStream = () => {
             type="text"
             value={mint}
             onChange={(e) => setMint(e.target.value)}
-            className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
             placeholder="Enter token mint"
             required
           />
@@ -148,7 +178,7 @@ export const CreateStream = () => {
             step="0.000001"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
             placeholder="1000"
             required
           />
@@ -163,7 +193,7 @@ export const CreateStream = () => {
               type="datetime-local"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
               required
             />
           </div>
@@ -176,7 +206,7 @@ export const CreateStream = () => {
               type="datetime-local"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
               required
             />
           </div>
@@ -190,7 +220,7 @@ export const CreateStream = () => {
             type="number"
             value={cliffMinutes}
             onChange={(e) => setCliffMinutes(e.target.value)}
-            className="w-full px-3 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/10 focus:border-zinc-700 transition-colors text-sm"
+            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
             placeholder="10"
             required
           />
@@ -199,7 +229,7 @@ export const CreateStream = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-white hover:bg-zinc-200 text-zinc-900 font-medium py-2.5 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+          className="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 text-zinc-900 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm hover:shadow"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
