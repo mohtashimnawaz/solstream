@@ -119,66 +119,98 @@ function App() {
                   {activeTab === 'create' ? <CreateStream /> : <WithdrawStream />}
                 </div>
                 <div className="lg:col-span-1">
-                  <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 sticky top-24">
+                  <div className="relative bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 sticky top-24 shadow-xl overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div className="relative z-10">
                     <div className="flex items-center gap-2 mb-5">
-                      <svg className="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
+                      <div className="w-7 h-7 bg-emerald-500/10 border border-emerald-500/20 rounded-lg flex items-center justify-center">
+                        <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                      </div>
                       <h3 className="text-sm font-semibold text-white">How it works</h3>
                     </div>
-                    <div className="space-y-5">
+                    <div className="space-y-4">
                       {activeTab === 'create' ? (
                         <>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">1</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">1</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Enter beneficiary</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Wallet that receives tokens</p>
+                              <p className="text-sm text-white font-medium mb-1">Set beneficiary</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">Enter the wallet address of the token recipient</p>
                             </div>
                           </div>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">2</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">2</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Set schedule</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Start, end, and cliff period</p>
+                              <p className="text-sm text-white font-medium mb-1">Configure schedule</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">Set vesting period, cliff duration, and total amount</p>
                             </div>
                           </div>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">3</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">3</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Deposit tokens</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Locked in secure vault</p>
+                              <p className="text-sm text-white font-medium mb-1">Create stream</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">Sign the transaction to deploy your vesting contract</p>
+                            </div>
+                          </div>
+                          <div className="mt-6 pt-6 border-t border-zinc-800">
+                            <div className="flex items-start gap-2 p-3 bg-amber-500/5 border border-amber-500/20 rounded-lg">
+                              <svg className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                              </svg>
+                              <p className="text-xs text-amber-400/90 leading-relaxed">Ensure you have sufficient tokens and SOL for transaction fees</p>
                             </div>
                           </div>
                         </>
                       ) : (
                         <>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">1</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">1</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Enter details</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Sender and token mint</p>
+                              <p className="text-sm text-white font-medium mb-1">Find your stream</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">Enter the sender's wallet address and token mint</p>
                             </div>
                           </div>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">2</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">2</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Check vested</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Available tokens calculated</p>
+                              <p className="text-sm text-white font-medium mb-1">Check vested amount</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">View how many tokens are available to claim</p>
                             </div>
                           </div>
                           <div className="flex gap-3">
-                            <div className="w-6 h-6 rounded-full bg-zinc-800 flex items-center justify-center text-xs text-zinc-400 flex-shrink-0 font-medium">3</div>
+                            <div className="flex-shrink-0 w-6 h-6 bg-white/10 border border-white/20 rounded-full flex items-center justify-center">
+                              <span className="text-xs font-bold text-white">3</span>
+                            </div>
                             <div>
-                              <p className="text-sm text-zinc-300">Claim tokens</p>
-                              <p className="text-xs text-zinc-500 mt-0.5">Withdraw to wallet</p>
+                              <p className="text-sm text-white font-medium mb-1">Withdraw tokens</p>
+                              <p className="text-xs text-zinc-500 leading-relaxed">Claim your vested tokens to your wallet</p>
+                            </div>
+                          </div>
+                          <div className="mt-6 pt-6 border-t border-zinc-800">
+                            <div className="flex items-start gap-2 p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
+                              <svg className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                              </svg>
+                              <p className="text-xs text-blue-400/90 leading-relaxed">You can only withdraw tokens that have already vested</p>
                             </div>
                           </div>
                         </>
-                      )}
+                      )}  
                     </div>
 
-                    <div className="mt-6 pt-5 border-t border-zinc-800">
+                    <div className="hidden mt-6 pt-5 border-t border-zinc-800">
                       <div className="flex items-start gap-2.5">
                         <svg className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
@@ -187,6 +219,7 @@ function App() {
                           Running on Devnet. Ensure you have devnet SOL and tokens.
                         </p>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>

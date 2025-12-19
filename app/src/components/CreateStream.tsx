@@ -110,7 +110,7 @@ export const CreateStream = () => {
   }
 
   return (
-    <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl hover:border-zinc-700 transition-colors">
+    <div className="bg-zinc-900/80 border border-zinc-800 rounded-xl hover:border-zinc-700 transition-all duration-300 hover:shadow-xl hover:shadow-white/5">
       <div className="p-6 border-b border-zinc-800">
         <h2 className="text-lg font-semibold text-white">Create Vesting Stream</h2>
         <p className="text-sm text-zinc-500 mt-1">Set up a new token vesting schedule</p>
@@ -229,7 +229,7 @@ export const CreateStream = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 text-zinc-900 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm hover:shadow"
+          className="w-full py-3 bg-white text-zinc-900 rounded-lg font-semibold hover:bg-zinc-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm active:bg-zinc-200 active:scale-[0.99] shadow-sm hover:shadow-lg hover:shadow-white/10 relative overflow-hidden group"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
@@ -240,7 +240,10 @@ export const CreateStream = () => {
               Creating...
             </span>
           ) : (
-            'Create Stream'
+            <>
+              <span className="relative z-10">Create Stream</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
+            </>
           )}
         </button>
       </form>

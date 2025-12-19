@@ -181,7 +181,7 @@ export const StreamList = () => {
             return (
               <div
                 key={stream.address}
-                className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 hover:bg-zinc-900 transition-all group"
+                className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 hover:bg-zinc-900 transition-all duration-300 group hover:shadow-xl hover:shadow-white/5 hover:scale-[1.01]"
               >
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-5">
                   <div className="flex items-center gap-6">
@@ -248,13 +248,15 @@ export const StreamList = () => {
                   </div>
                   <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-500 ${
+                      className={`h-full rounded-full transition-all duration-500 relative overflow-hidden ${
                         percentVested >= 100 ? 'bg-emerald-500' :
                         percentVested >= 50 ? 'bg-amber-500' :
                         'bg-white'
                       }`}
                       style={{ width: `${Math.min(percentVested, 100)}%` }}
-                    />
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                    </div>
                   </div>
                 </div>
 
