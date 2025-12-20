@@ -4,9 +4,30 @@ import { CreateStream } from './components/CreateStream';
 import { WithdrawStream } from './components/WithdrawStream';
 import { StreamList } from './components/StreamList';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 function App() {
   const [activeTab, setActiveTab] = useState<'create' | 'withdraw'>('create');
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('theme') || 'system';
+    }
+    return 'system';
+  });
+
+  useEffect(() => {
+    if (theme === 'system') {
+      document.documentElement.classList.remove('dark');
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+    } else if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
 
   return (
     <WalletContextProvider>
@@ -41,7 +62,19 @@ function App() {
                 </div>
               </nav>
 
-              <WalletMultiButton className="!bg-white !text-zinc-900 hover:!bg-zinc-100 !transition-all !text-sm !font-semibold !rounded-lg !h-9 !px-4 !shadow-sm hover:!shadow" />
+              <div className="flex items-center gap-2">
+                <select
+                  aria-label="Theme switcher"
+                  className="bg-zinc-900 border border-zinc-800 text-zinc-300 rounded-lg px-2 py-1 text-xs focus:outline-none focus:ring-2 focus:ring-white/20"
+                  value={theme}
+                  onChange={e => setTheme(e.target.value)}
+                >
+                  <option value="system">System</option>
+                  <option value="dark">Dark</option>
+                  <option value="light">Light</option>
+                </select>
+                <WalletMultiButton className="!bg-white !text-zinc-900 hover:!bg-zinc-100 !transition-all !text-sm !font-semibold !rounded-lg !h-9 !px-4 !shadow-sm hover:!shadow" />
+              </div>
             </div>
           </div>
         </header>
