@@ -5,7 +5,7 @@ import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddres
 import { BN } from '@coral-xyz/anchor';
 import { useProgram } from '../hooks/useProgram';
 
-export const CreateStream = () => {
+export const CreateStream = ({ showToast }) => {
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
@@ -74,7 +74,7 @@ export const CreateStream = () => {
         })
         .rpc();
 
-      alert(`Stream created! Transaction: ${tx}`);
+      showToast('Stream created! Transaction: ' + tx, 'success');
       
       // Reset form
       setBeneficiary('');
@@ -88,6 +88,7 @@ export const CreateStream = () => {
     } catch (error: any) {
       console.error('Error creating stream:', error);
       setError(error.message || 'Failed to create stream');
+      showToast(error.message || 'Failed to create stream', 'error');
       setSuccess(false);
     } finally {
       setLoading(false);

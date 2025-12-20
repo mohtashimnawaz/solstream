@@ -5,8 +5,11 @@ import { WithdrawStream } from './components/WithdrawStream';
 import { StreamList } from './components/StreamList';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { Toast } from './components/Toast';
 
 function App() {
+      const [toast, setToast] = useState({ message: '', type: 'info' });
+      const showToast = (message, type = 'info') => setToast({ message, type });
     const [accent, setAccent] = useState(() => {
       if (typeof window !== 'undefined') {
         return localStorage.getItem('accent') || '#10b981';
@@ -168,7 +171,8 @@ function App() {
               {/* Tab Content */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 <div className="lg:col-span-2 tab-content-animate">
-                  {activeTab === 'create' ? <CreateStream /> : <WithdrawStream />}
+                  {activeTab === 'create' ? <CreateStream showToast={showToast} /> : <WithdrawStream showToast={showToast} />}
+                  <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'info' })} />
                 </div>
                 <div className="lg:col-span-1 mt-8 lg:mt-0">
                   <div className="relative bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 sm:p-6 sticky top-24 shadow-xl overflow-hidden group">

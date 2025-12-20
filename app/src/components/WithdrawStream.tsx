@@ -5,6 +5,7 @@ import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
 import { useProgram } from '../hooks/useProgram';
 
 export const WithdrawStream = () => {
+export const WithdrawStream = ({ showToast }) => {
   const { publicKey } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
@@ -64,11 +65,13 @@ export const WithdrawStream = () => {
       setMint('');
       setSuccess(true);
       setError('');
+      showToast('Withdrawal successful! Transaction: ' + tx, 'success');
       setTimeout(() => setSuccess(false), 5000);
     } catch (error: any) {
       console.error('Error withdrawing:', error);
       setError(error.message || 'Failed to withdraw tokens');
       setSuccess(false);
+      showToast(error.message || 'Failed to withdraw', 'error');
     } finally {
       setLoading(false);
     }
