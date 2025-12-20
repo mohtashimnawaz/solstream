@@ -5,6 +5,8 @@ import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
 import { useProgram } from '../hooks/useProgram';
 
 export const WithdrawStream = ({ showToast }) => {
+    const [touched, setTouched] = useState({ sender: false, mint: false });
+    const isValidAddress = (v) => /^\w{32,44}$/.test(v);
   const { publicKey } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
@@ -123,33 +125,45 @@ export const WithdrawStream = ({ showToast }) => {
           </div>
         )}
         
-        <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-2">
-            Sender Address
-          </label>
-          <input
-            type="text"
-            value={sender}
-            onChange={(e) => setSender(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
-            placeholder="Enter sender wallet address"
-            required
-          />
-        </div>
+         <div>
+           <label className="block text-sm font-medium text-zinc-300 mb-2">
+             Sender Address
+           </label>
+           <input
+             type="text"
+             value={sender}
+             onChange={(e) => setSender(e.target.value)}
+             onBlur={() => setTouched(t => ({ ...t, sender: true }))}
+             className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.sender && !isValidAddress(sender) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono`}
+             placeholder="Enter sender wallet address"
+             required
+             aria-invalid={touched.sender && !isValidAddress(sender)}
+           />
+           <div className="text-xs text-zinc-500 mt-1">Enter the sender's Solana wallet address (32-44 chars).</div>
+           {touched.sender && !isValidAddress(sender) && (
+             <div className="text-xs text-red-500 mt-0.5">Invalid address format.</div>
+           )}
+         </div>
 
-        <div>
-          <label className="block text-sm font-medium text-zinc-300 mb-2">
-            Token Mint Address
-          </label>
-          <input
-            type="text"
-            value={mint}
-            onChange={(e) => setMint(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
-            placeholder="Enter token mint"
-            required
-          />
-        </div>
+         <div>
+           <label className="block text-sm font-medium text-zinc-300 mb-2">
+             Token Mint Address
+           </label>
+           <input
+             type="text"
+             value={mint}
+             onChange={(e) => setMint(e.target.value)}
+             onBlur={() => setTouched(t => ({ ...t, mint: true }))}
+             className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.mint && !isValidAddress(mint) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono`}
+             placeholder="Enter token mint"
+             required
+             aria-invalid={touched.mint && !isValidAddress(mint)}
+           />
+           <div className="text-xs text-zinc-500 mt-1">Enter the SPL token mint address (32-44 chars).</div>
+           {touched.mint && !isValidAddress(mint) && (
+             <div className="text-xs text-red-500 mt-0.5">Invalid mint address format.</div>
+           )}
+         </div>
 
           <button
             type="submit"
