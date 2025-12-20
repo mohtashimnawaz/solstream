@@ -1,8 +1,10 @@
 import { WalletContextProvider } from './contexts/WalletContextProvider';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 import { CreateStream } from './components/CreateStream';
-import { WithdrawStream } from './components/WithdrawStream';
-import { StreamList } from './components/StreamList';
+import { Suspense, lazy } from 'react';
+const CreateStream = lazy(() => import('./components/CreateStream'));
+const WithdrawStream = lazy(() => import('./components/WithdrawStream'));
+const StreamList = lazy(() => import('./components/StreamList'));
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Toast } from './components/Toast';
@@ -188,7 +190,9 @@ function App() {
               {/* Tab Content */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
                 <div className="lg:col-span-2 tab-content-animate">
-                  {activeTab === 'create' ? <CreateStream showToast={showToast} /> : <WithdrawStream showToast={showToast} />}
+                  <Suspense fallback={<div className="text-zinc-400 text-center py-10">Loading...</div>}>
+                    {activeTab === 'create' ? <CreateStream showToast={showToast} /> : <WithdrawStream showToast={showToast} />}
+                  </Suspense>
                   <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: 'info' })} />
                 </div>
                 <div className="lg:col-span-1 mt-8 lg:mt-0">
@@ -303,7 +307,9 @@ function App() {
           {/* Streams Section */}
           <section className="py-10 sm:py-16 border-t border-zinc-800/50">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
-              <StreamList />
+              <Suspense fallback={<div className="text-zinc-400 text-center py-10">Loading streams...</div>}>
+                <StreamList />
+              </Suspense>
             </div>
           </section>
         </main>
