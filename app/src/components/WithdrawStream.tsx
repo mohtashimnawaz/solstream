@@ -4,7 +4,6 @@ import { PublicKey } from '@solana/web3.js';
 import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from '@solana/spl-token';
 import { useProgram } from '../hooks/useProgram';
 
-export const WithdrawStream = () => {
 export const WithdrawStream = ({ showToast }) => {
   const { publicKey } = useWallet();
   const { connection } = useConnection();
