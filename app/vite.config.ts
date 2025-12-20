@@ -7,6 +7,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      'stream': 'stream-browserify',
+      'buffer': 'buffer',
+      'process': 'process/browser',
     },
   },
   define: {
@@ -14,7 +17,7 @@ export default defineConfig({
     global: 'globalThis',
   },
   optimizeDeps: {
-    include: ['@solana/web3.js', '@coral-xyz/anchor'],
+    include: ['@solana/web3.js', '@coral-xyz/anchor', '@solana/spl-token'],
     esbuildOptions: {
       define: {
         global: 'globalThis',
