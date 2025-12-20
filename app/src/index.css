@@ -1,3 +1,19 @@
+/* Accent color system */
+:root {
+  --accent: #10b981; /* emerald-500 */
+  --accent-fg: #fff;
+  --accent-border: #34d399; /* emerald-400 */
+}
+.accent {
+  background: var(--accent) !important;
+  color: var(--accent-fg) !important;
+}
+.accent-border {
+  border-color: var(--accent-border) !important;
+}
+.accent-text {
+  color: var(--accent) !important;
+}
 /* Accessibility: focus-visible for all interactive elements */
 a, button, input, select, textarea {
   outline: none;

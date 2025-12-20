@@ -7,6 +7,17 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 function App() {
+    const [accent, setAccent] = useState(() => {
+      if (typeof window !== 'undefined') {
+        return localStorage.getItem('accent') || '#10b981';
+      }
+      return '#10b981';
+    });
+
+    useEffect(() => {
+      document.documentElement.style.setProperty('--accent', accent);
+      localStorage.setItem('accent', accent);
+    }, [accent]);
   const [activeTab, setActiveTab] = useState<'create' | 'withdraw'>('create');
   const [theme, setTheme] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -56,9 +67,9 @@ function App() {
               <nav className="hidden md:flex items-center gap-4 lg:gap-6">
                 <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="Documentation">Docs</a>
                 <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="GitHub Repository">GitHub</a>
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
-                  <span className="text-xs text-emerald-400 font-semibold">Devnet</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: 'var(--accent, #10b981)10', border: '1px solid var(--accent-border, #34d399)' }}>
+                  <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--accent, #10b981)' }}></span>
+                  <span className="text-xs font-semibold" style={{ color: 'var(--accent, #10b981)' }}>Devnet</span>
                 </div>
               </nav>
 
@@ -73,6 +84,14 @@ function App() {
                   <option value="dark">Dark</option>
                   <option value="light">Light</option>
                 </select>
+                <input
+                  type="color"
+                  aria-label="Accent color picker"
+                  value={accent}
+                  onChange={e => setAccent(e.target.value)}
+                  className="w-7 h-7 p-0 border-0 bg-transparent cursor-pointer"
+                  style={{ accentColor: accent }}
+                />
                 <WalletMultiButton className="!bg-white !text-zinc-900 hover:!bg-zinc-100 !transition-all !text-sm !font-semibold !rounded-lg !h-9 !px-4 !shadow-sm hover:!shadow" />
               </div>
             </div>
