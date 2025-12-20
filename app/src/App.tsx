@@ -33,8 +33,8 @@ function App() {
               </div>
 
               <nav className="hidden md:flex items-center gap-4 lg:gap-6">
-                <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">Docs</a>
-                <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium">GitHub</a>
+                <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="Documentation">Docs</a>
+                <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="GitHub Repository">GitHub</a>
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
                   <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                   <span className="text-xs text-emerald-400 font-semibold">Devnet</span>
@@ -309,6 +309,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
           className="tubelight-signature"
+          aria-label="Designer portfolio: nwz"
         >
           by nwz
         </a>

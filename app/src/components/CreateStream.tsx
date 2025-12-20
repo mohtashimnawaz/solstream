@@ -230,6 +230,7 @@ export const CreateStream = () => {
           type="submit"
           disabled={loading}
           className="w-full py-3 bg-white text-zinc-900 rounded-lg font-semibold hover:bg-zinc-100 transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm active:bg-zinc-200 active:scale-[0.99] shadow-sm hover:shadow-lg hover:shadow-white/10 relative overflow-hidden group btn-tap"
+          aria-label="Create vesting stream"
         >
           {loading ? (
             <span className="flex items-center justify-center gap-2">

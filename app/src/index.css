@@ -1,3 +1,12 @@
+/* Accessibility: focus-visible for all interactive elements */
+a, button, input, select, textarea {
+  outline: none;
+}
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #6366f1;
+}
 /* Subtle fade/slide for tab content */
 .tab-content-animate {
   animation: tabFadeIn 0.5s cubic-bezier(0.4,0,0.2,1);

@@ -153,6 +153,7 @@ export const WithdrawStream = () => {
             type="submit"
             disabled={loading}
             className="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 active:scale-[0.99] text-zinc-900 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm hover:shadow-lg hover:shadow-white/10 relative overflow-hidden group btn-tap"
+            aria-label="Withdraw vested tokens"
           >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
