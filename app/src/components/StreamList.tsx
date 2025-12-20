@@ -83,7 +83,7 @@ export const StreamList = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
         <div>
           <h2 className="text-lg font-semibold text-white">Active Vesting Streams</h2>
           <p className="text-sm text-zinc-500 mt-0.5">
@@ -99,7 +99,7 @@ export const StreamList = () => {
         <button
           onClick={loadStreams}
           disabled={loading}
-          className="px-4 py-2 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 text-zinc-300 hover:text-white rounded-lg transition-all disabled:opacity-50 text-sm font-medium flex items-center gap-2 shadow-sm"
+          className="px-4 py-2 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 text-zinc-300 hover:text-white rounded-lg transition-all disabled:opacity-50 text-sm font-medium flex items-center gap-2 shadow-sm w-full sm:w-auto"
         >
           {loading ? (
             <>
@@ -123,15 +123,15 @@ export const StreamList = () => {
       {loading && streams.length === 0 ? (
         <div className="space-y-4">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 animate-pulse">
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-5">
+            <div key={i} className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4 sm:p-6 animate-pulse">
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 lg:gap-6 mb-5">
                 <div className="flex items-center gap-6">
                   <div className="flex flex-col gap-2">
                     <div className="h-5 w-48 bg-zinc-800 rounded"></div>
                     <div className="h-5 w-48 bg-zinc-800 rounded"></div>
                   </div>
                 </div>
-                <div className="flex items-center gap-8">
+                <div className="flex flex-col xs:flex-row items-start xs:items-center gap-4 xs:gap-8">
                   <div className="h-12 w-24 bg-zinc-800 rounded"></div>
                   <div className="w-px h-10 bg-zinc-800"></div>
                   <div className="h-12 w-24 bg-zinc-800 rounded"></div>
@@ -148,7 +148,7 @@ export const StreamList = () => {
           ))}
         </div>
       ) : streams.length === 0 ? (
-        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-16">
+        <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-8 sm:p-16">
           <div className="text-center max-w-md mx-auto">
             <div className="w-16 h-16 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-5">
               <svg className="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,7 +162,7 @@ export const StreamList = () => {
                 : "You haven't created or received any vesting streams yet. Create a new stream to get started."}
             </p>
             {connected && (
-              <button className="text-sm text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-2 mx-auto">
+              <button className="text-sm text-zinc-400 hover:text-white transition-colors font-medium flex items-center gap-2 mx-auto mt-4">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                 </svg>
@@ -181,10 +181,10 @@ export const StreamList = () => {
             return (
               <div
                 key={stream.address}
-                className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 hover:bg-zinc-900 transition-all duration-300 group hover:shadow-xl hover:shadow-white/5 hover:scale-[1.01]"
+                className="bg-zinc-900/80 border border-zinc-800 rounded-xl p-4 sm:p-6 hover:border-zinc-700 hover:bg-zinc-900 transition-all duration-300 group hover:shadow-xl hover:shadow-white/5 hover:scale-[1.01]"
               >
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-5">
-                  <div className="flex items-center gap-6">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 lg:gap-6 mb-5">
+                  <div className="flex flex-col xs:flex-row items-start xs:items-center gap-4 xs:gap-6">
                     <div className="flex flex-col gap-2">
                       <div className="flex items-center gap-2 group/address">
                         <span className="text-xs text-zinc-500 font-medium">From</span>
@@ -233,7 +233,7 @@ export const StreamList = () => {
                 </div>
 
                 <div className="mb-5">
-                  <div className="flex justify-between items-center mb-2.5">
+                  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2.5 gap-2 sm:gap-0">
                     <span className="text-xs text-zinc-500 font-medium">Vesting Progress</span>
                     <div className="flex items-center gap-2">
                       <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
@@ -260,7 +260,7 @@ export const StreamList = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-5 border-t border-zinc-800">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-5 border-t border-zinc-800 text-xs sm:text-xs md:text-sm">
                   <div className="flex items-center gap-6 text-xs text-zinc-500">
                     <div className="flex items-center gap-1.5">
                       <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
