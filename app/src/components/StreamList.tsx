@@ -150,9 +150,9 @@ export const StreamList = () => {
       ) : streams.length === 0 ? (
         <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-8 sm:p-16">
           <div className="text-center max-w-md mx-auto">
-            <div className="w-16 h-16 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-5">
-              <svg className="w-8 h-8 text-zinc-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+            <div className="w-20 h-20 bg-gradient-to-br from-zinc-800/60 to-zinc-900/80 rounded-full flex items-center justify-center mx-auto mb-5 shadow-inner">
+              <svg className="w-10 h-10 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 0V4m0 16v-4" />
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-white mb-2">No vesting streams found</h3>
