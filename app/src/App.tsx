@@ -1,10 +1,9 @@
 import { WalletContextProvider } from './contexts/WalletContextProvider';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { CreateStream } from './components/CreateStream';
 import { Suspense, lazy } from 'react';
-const CreateStream = lazy(() => import('./components/CreateStream'));
-const WithdrawStream = lazy(() => import('./components/WithdrawStream'));
-const StreamList = lazy(() => import('./components/StreamList'));
+const CreateStream = lazy(() => import('./components/CreateStream').then(m => ({ default: m.default })));
+const WithdrawStream = lazy(() => import('./components/WithdrawStream').then(m => ({ default: m.default })));
+const StreamList = lazy(() => import('./components/StreamList').then(m => ({ default: m.default })));
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Toast } from './components/Toast';
@@ -28,7 +27,7 @@ function App() {
           return () => clearInterval(interval);
         }, []);
       const [toast, setToast] = useState({ message: '', type: 'info' });
-      const showToast = (message, type = 'info') => setToast({ message, type });
+      const showToast = (message: string, type: string = 'info') => setToast({ message, type });
     const [accent, setAccent] = useState(() => {
       if (typeof window !== 'undefined') {
         return localStorage.getItem('accent') || '#10b981';
@@ -89,7 +88,7 @@ function App() {
               <nav className="hidden md:flex items-center gap-4 lg:gap-6">
                 <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="Documentation">Docs</a>
                 <a href="#" className="text-sm text-zinc-400 hover:text-white transition-colors font-medium" aria-label="GitHub Repository">GitHub</a>
-                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: 'var(--accent, #10b981)10', border: '1px solid var(--accent-border, #34d399)' }}>
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-full" style={{ background: 'rgba(16,185,129,0.1)', border: '1px solid var(--accent-border, #34d399)' }}>
                   <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'var(--accent, #10b981)' }}></span>
                   <span className="text-xs font-semibold" style={{ color: 'var(--accent, #10b981)' }}>Devnet</span>
                 </div>

@@ -14,7 +14,7 @@ interface VestingStream {
   cliffDuration: number;
 }
 
-export const StreamList = () => {
+const StreamList = () => {
   const { publicKey, connected } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
@@ -27,7 +27,7 @@ export const StreamList = () => {
     }
   }, [publicKey, program]);
 
-  const loadStreams = async () => {
+  const loadStreams = async (retryCount = 0, delayMs = 4000) => {
     if (!program || !publicKey) return;
 
     setLoading(true);
@@ -54,8 +54,18 @@ export const StreamList = () => {
       }));
 
       setStreams(streamData);
-    } catch (error) {
-      console.error('Error loading streams:', error);
+    } catch (error: any) {
+      // Check for 429 error (rate limit)
+      const is429 = error?.message?.includes('429') || error?.toString().includes('429');
+      if (is429 && retryCount < 5) {
+        console.warn(`429 received, retrying after ${delayMs}ms (attempt ${retryCount + 1})`);
+        setTimeout(() => loadStreams(retryCount + 1, delayMs * 2), delayMs);
+      } else {
+        console.error('Error loading streams:', error);
+        if (is429) {
+          alert('Too many requests to Solana RPC. Please try again later or switch to a different endpoint.');
+        }
+      }
     } finally {
       setLoading(false);
     }
@@ -292,3 +302,5 @@ export const StreamList = () => {
     </div>
   );
 };
+
+export default StreamList;

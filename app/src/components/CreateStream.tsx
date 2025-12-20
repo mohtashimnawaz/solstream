@@ -5,7 +5,7 @@ import { TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID, getAssociatedTokenAddres
 import { BN } from '@coral-xyz/anchor';
 import { useProgram } from '../hooks/useProgram';
 
-export const CreateStream = ({ showToast }) => {
+const CreateStream = ({ showToast }) => {
   const { publicKey, sendTransaction } = useWallet();
   const { connection } = useConnection();
   const { program } = useProgram();
@@ -295,3 +295,5 @@ export const CreateStream = ({ showToast }) => {
     </div>
   );
 };
+
+export default CreateStream;
