@@ -8,6 +8,23 @@ import { useEffect } from 'react';
 import { Toast } from './components/Toast';
 
 function App() {
+        // Animated counters for hero stats
+        const [fee, setFee] = useState(0);
+        const [onChain, setOnChain] = useState(0);
+        const [linear, setLinear] = useState(0);
+        useEffect(() => {
+          let f = 0, o = 0, l = 0;
+          const interval = setInterval(() => {
+            if (f < 0) f = Math.min(f + 2, 0);
+            if (o < 100) o = Math.min(o + 5, 100);
+            if (l < 100) l = Math.min(l + 10, 100);
+            setFee(f);
+            setOnChain(o);
+            setLinear(l);
+            if (f === 0 && o === 100 && l === 100) clearInterval(interval);
+          }, 20);
+          return () => clearInterval(interval);
+        }, []);
       const [toast, setToast] = useState({ message: '', type: 'info' });
       const showToast = (message, type = 'info') => setToast({ message, type });
     const [accent, setAccent] = useState(() => {
@@ -123,17 +140,17 @@ function App() {
                 </p>
                 <div className="flex flex-col xs:flex-row items-start xs:items-center gap-4 xs:gap-8">
                   <div>
-                    <p className="text-2xl font-bold text-white">0%</p>
+                    <p className="text-2xl font-bold text-white transition-all duration-500">{fee}%</p>
                     <p className="text-xs text-zinc-500 mt-0.5">Platform Fee</p>
                   </div>
                   <div className="w-px h-10 bg-zinc-800"></div>
                   <div>
-                    <p className="text-2xl font-bold text-white">100%</p>
+                    <p className="text-2xl font-bold text-white transition-all duration-500">{onChain}%</p>
                     <p className="text-xs text-zinc-500 mt-0.5">On-Chain</p>
                   </div>
                   <div className="w-px h-10 bg-zinc-800"></div>
                   <div>
-                    <p className="text-2xl font-bold text-white">Linear</p>
+                    <p className="text-2xl font-bold text-white transition-all duration-500">{linear === 100 ? 'Linear' : linear + '%'}</p>
                     <p className="text-xs text-zinc-500 mt-0.5">Vesting Model</p>
                   </div>
                 </div>

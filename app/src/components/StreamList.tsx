@@ -248,14 +248,14 @@ export const StreamList = () => {
                   </div>
                   <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full transition-all duration-500 relative overflow-hidden ${
+                      className={`h-full rounded-full transition-all duration-700 ease-out relative overflow-hidden shadow-inner ${
                         percentVested >= 100 ? 'bg-emerald-500' :
                         percentVested >= 50 ? 'bg-amber-500' :
                         'bg-white'
-                      }`}
+                      } animate-pulse`}
                       style={{ width: `${Math.min(percentVested, 100)}%` }}
                     >
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer"></div>
+                      <div className="absolute inset-0 animate-shimmer"></div>
                     </div>
                   </div>
                 </div>
