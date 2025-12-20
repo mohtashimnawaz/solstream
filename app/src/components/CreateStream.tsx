@@ -19,6 +19,13 @@ export const CreateStream = ({ showToast }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [touched, setTouched] = useState({ beneficiary: false, mint: false, amount: false, startTime: false, endTime: false, cliffMinutes: false });
+
+  // Simple validators
+  const isValidAddress = (v) => /^\w{32,44}$/.test(v);
+  const isValidAmount = (v) => !isNaN(Number(v)) && Number(v) > 0;
+  const isValidDate = (v) => Boolean(Date.parse(v));
+  const isValidCliff = (v) => !isNaN(Number(v)) && Number(v) >= 0;
 
   const handleCreateStream = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -150,10 +157,16 @@ export const CreateStream = ({ showToast }) => {
             type="text"
             value={beneficiary}
             onChange={(e) => setBeneficiary(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
+            onBlur={() => setTouched(t => ({ ...t, beneficiary: true }))}
+            className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.beneficiary && !isValidAddress(beneficiary) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono`}
             placeholder="Enter wallet address"
             required
+            aria-invalid={touched.beneficiary && !isValidAddress(beneficiary)}
           />
+          <div className="text-xs text-zinc-500 mt-1">Enter a valid Solana wallet address (32-44 chars).</div>
+          {touched.beneficiary && !isValidAddress(beneficiary) && (
+            <div className="text-xs text-red-500 mt-0.5">Invalid address format.</div>
+          )}
         </div>
 
         <div>
@@ -164,10 +177,16 @@ export const CreateStream = ({ showToast }) => {
             type="text"
             value={mint}
             onChange={(e) => setMint(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono"
+            onBlur={() => setTouched(t => ({ ...t, mint: true }))}
+            className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.mint && !isValidAddress(mint) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm font-mono`}
             placeholder="Enter token mint"
             required
+            aria-invalid={touched.mint && !isValidAddress(mint)}
           />
+          <div className="text-xs text-zinc-500 mt-1">Enter the SPL token mint address (32-44 chars).</div>
+          {touched.mint && !isValidAddress(mint) && (
+            <div className="text-xs text-red-500 mt-0.5">Invalid mint address format.</div>
+          )}
         </div>
 
         <div>
@@ -179,10 +198,16 @@ export const CreateStream = ({ showToast }) => {
             step="0.000001"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
+            onBlur={() => setTouched(t => ({ ...t, amount: true }))}
+            className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.amount && !isValidAmount(amount) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm`}
             placeholder="1000"
             required
+            aria-invalid={touched.amount && !isValidAmount(amount)}
           />
+          <div className="text-xs text-zinc-500 mt-1">Amount of tokens to vest (must be positive).</div>
+          {touched.amount && !isValidAmount(amount) && (
+            <div className="text-xs text-red-500 mt-0.5">Enter a valid positive number.</div>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4">
@@ -194,9 +219,15 @@ export const CreateStream = ({ showToast }) => {
               type="datetime-local"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
+              onBlur={() => setTouched(t => ({ ...t, startTime: true }))}
+              className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.startTime && !isValidDate(startTime) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm`}
               required
+              aria-invalid={touched.startTime && !isValidDate(startTime)}
             />
+            <div className="text-xs text-zinc-500 mt-1">When vesting starts.</div>
+            {touched.startTime && !isValidDate(startTime) && (
+              <div className="text-xs text-red-500 mt-0.5">Enter a valid start date/time.</div>
+            )}
           </div>
 
           <div>
@@ -207,9 +238,15 @@ export const CreateStream = ({ showToast }) => {
               type="datetime-local"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
+              onBlur={() => setTouched(t => ({ ...t, endTime: true }))}
+              className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.endTime && !isValidDate(endTime) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm`}
               required
+              aria-invalid={touched.endTime && !isValidDate(endTime)}
             />
+            <div className="text-xs text-zinc-500 mt-1">When vesting ends.</div>
+            {touched.endTime && !isValidDate(endTime) && (
+              <div className="text-xs text-red-500 mt-0.5">Enter a valid end date/time.</div>
+            )}
           </div>
         </div>
 
@@ -221,10 +258,16 @@ export const CreateStream = ({ showToast }) => {
             type="number"
             value={cliffMinutes}
             onChange={(e) => setCliffMinutes(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm"
+            onBlur={() => setTouched(t => ({ ...t, cliffMinutes: true }))}
+            className={`w-full px-3.5 py-2.5 bg-zinc-900 border ${touched.cliffMinutes && !isValidCliff(cliffMinutes) ? 'border-red-500' : 'border-zinc-800'} rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-white/20 focus:border-zinc-700 hover:border-zinc-700 transition-all text-sm`}
             placeholder="10"
             required
+            aria-invalid={touched.cliffMinutes && !isValidCliff(cliffMinutes)}
           />
+          <div className="text-xs text-zinc-500 mt-1">Cliff period before vesting starts (minutes, can be 0).</div>
+          {touched.cliffMinutes && !isValidCliff(cliffMinutes) && (
+            <div className="text-xs text-red-500 mt-0.5">Enter a valid number (0 or more).</div>
+          )}
         </div>
 
         <button
