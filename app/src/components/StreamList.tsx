@@ -99,7 +99,7 @@ export const StreamList = () => {
         <button
           onClick={loadStreams}
           disabled={loading}
-          className="px-4 py-2 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 text-zinc-300 hover:text-white rounded-lg transition-all disabled:opacity-50 text-sm font-medium flex items-center gap-2 shadow-sm w-full sm:w-auto"
+          className="px-4 py-2 bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 hover:bg-zinc-900 text-zinc-300 hover:text-white rounded-lg transition-all disabled:opacity-50 text-sm font-medium flex items-center gap-2 shadow-sm w-full sm:w-auto btn-tap"
         >
           {loading ? (
             <>

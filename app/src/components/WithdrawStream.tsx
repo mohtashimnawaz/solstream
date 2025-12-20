@@ -149,11 +149,11 @@ export const WithdrawStream = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 active:scale-[0.99] text-zinc-900 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm hover:shadow-lg hover:shadow-white/10 relative overflow-hidden group"
-        >
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 active:scale-[0.99] text-zinc-900 font-semibold py-3 px-4 rounded-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-sm shadow-sm hover:shadow-lg hover:shadow-white/10 relative overflow-hidden group btn-tap"
+          >
           {loading ? (
             <span className="flex items-center justify-center gap-2">
               <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

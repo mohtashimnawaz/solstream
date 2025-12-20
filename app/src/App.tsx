@@ -115,7 +115,7 @@ function App() {
 
               {/* Tab Content */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 tab-content-animate">
                   {activeTab === 'create' ? <CreateStream /> : <WithdrawStream />}
                 </div>
                 <div className="lg:col-span-1 mt-8 lg:mt-0">
