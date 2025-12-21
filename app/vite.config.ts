@@ -9,7 +9,7 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
       'stream': 'stream-browserify',
       'buffer': 'buffer',
-      'process': 'process/browser.js',
+      'process': 'process/browser',
     },
   },
   define: {
