@@ -27,7 +27,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['@solana/spl-token'],
+      // external: ['@solana/spl-token'],
     },
   },
 });
